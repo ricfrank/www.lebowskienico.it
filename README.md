@@ -1,4 +1,4 @@
 www.lebowskienico.it
 ====================
 
-Sito web
+Sito web realizzato con symfony 2
