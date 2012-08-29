@@ -33,7 +33,8 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        '_configurator_home' => true,
        '_configurator_step' => true,
        '_configurator_final' => true,
-       'blogger_blog_default_index' => true,
+       'blogger_blog_blog_index' => true,
+       'blogger_blog_blog_show' => true,
     );
 
     /**
@@ -157,8 +158,13 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
         return array(array (), array (  '_controller' => 'Sensio\\Bundle\\DistributionBundle\\Controller\\ConfiguratorController::finalAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/_configurator/final',  ),));
     }
 
-    private function getblogger_blog_default_indexRouteInfo()
+    private function getblogger_blog_blog_indexRouteInfo()
     {
-        return array(array (  0 => 'name',), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\DefaultController::indexAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  1 =>   array (    0 => 'text',    1 => '/hello',  ),));
+        return array(array (  0 => 'page',), array (  'page' => 1,  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::indexAction',), array (  'page' => '\\d+',), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '\\d+',    3 => 'page',  ),  1 =>   array (    0 => 'text',    1 => '/blog',  ),));
+    }
+
+    private function getblogger_blog_blog_showRouteInfo()
+    {
+        return array(array (  0 => 'slug',), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::showAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'slug',  ),  1 =>   array (    0 => 'text',    1 => '/blog',  ),));
     }
 }

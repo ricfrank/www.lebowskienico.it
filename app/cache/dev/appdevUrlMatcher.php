@@ -143,9 +143,14 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        // blogger_blog_default_index
-        if (0 === strpos($pathinfo, '/blog') && preg_match('#^/blog/(?P<name>[^/]+?)$#s', $pathinfo, $matches)) {
-            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\DefaultController::indexAction',)), array('_route' => 'blogger_blog_default_index'));
+        // blogger_blog_blog_index
+        if (0 === strpos($pathinfo, '/blog') && preg_match('#^/blog(?:/(?P<page>\\d+))?$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  'page' => 1,  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::indexAction',)), array('_route' => 'blogger_blog_blog_index'));
+        }
+
+        // blogger_blog_blog_show
+        if (0 === strpos($pathinfo, '/blog') && preg_match('#^/blog/(?P<slug>[^/]+?)$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::showAction',)), array('_route' => 'blogger_blog_blog_show'));
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
