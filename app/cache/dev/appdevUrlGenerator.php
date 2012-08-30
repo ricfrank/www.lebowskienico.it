@@ -13,16 +13,6 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerator
 {
     static private $declaredRouteNames = array(
-       '_welcome' => true,
-       '_demo_login' => true,
-       '_security_check' => true,
-       '_demo_logout' => true,
-       'acme_demo_secured_hello' => true,
-       '_demo_secured_hello' => true,
-       '_demo_secured_hello_admin' => true,
-       '_demo' => true,
-       '_demo_hello' => true,
-       '_demo_contact' => true,
        '_wdt' => true,
        '_profiler_search' => true,
        '_profiler_purge' => true,
@@ -34,6 +24,7 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        '_configurator_step' => true,
        '_configurator_final' => true,
        'blogger_blog_blog_index' => true,
+       'blogger_blog_blog_create' => true,
        'blogger_blog_blog_show' => true,
     );
 
@@ -56,56 +47,6 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
         list($variables, $defaults, $requirements, $tokens) = $this->{'get'.$escapedName.'RouteInfo'}();
 
         return $this->doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $absolute);
-    }
-
-    private function get_welcomeRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\WelcomeController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/',  ),));
-    }
-
-    private function get_demo_loginRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::loginAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/secured/login',  ),));
-    }
-
-    private function get_security_checkRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::securityCheckAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/secured/login_check',  ),));
-    }
-
-    private function get_demo_logoutRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::logoutAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/secured/logout',  ),));
-    }
-
-    private function getacme_demo_secured_helloRouteInfo()
-    {
-        return array(array (), array (  'name' => 'World',  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/secured/hello',  ),));
-    }
-
-    private function get_demo_secured_helloRouteInfo()
-    {
-        return array(array (  0 => 'name',), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  1 =>   array (    0 => 'text',    1 => '/demo/secured/hello',  ),));
-    }
-
-    private function get_demo_secured_hello_adminRouteInfo()
-    {
-        return array(array (  0 => 'name',), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloadminAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  1 =>   array (    0 => 'text',    1 => '/demo/secured/hello/admin',  ),));
-    }
-
-    private function get_demoRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/',  ),));
-    }
-
-    private function get_demo_helloRouteInfo()
-    {
-        return array(array (  0 => 'name',), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::helloAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  1 =>   array (    0 => 'text',    1 => '/demo/hello',  ),));
-    }
-
-    private function get_demo_contactRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::contactAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/contact',  ),));
     }
 
     private function get_wdtRouteInfo()
@@ -161,6 +102,11 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getblogger_blog_blog_indexRouteInfo()
     {
         return array(array (  0 => 'page',), array (  'page' => 1,  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::indexAction',), array (  'page' => '\\d+',), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '\\d+',    3 => 'page',  ),  1 =>   array (    0 => 'text',    1 => '/blog',  ),));
+    }
+
+    private function getblogger_blog_blog_createRouteInfo()
+    {
+        return array(array (), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::createAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/blog/nuovo-post',  ),));
     }
 
     private function getblogger_blog_blog_showRouteInfo()

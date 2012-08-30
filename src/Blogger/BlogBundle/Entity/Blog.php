@@ -54,6 +54,11 @@ class Blog
      * @ORM\Column(type="datetime")
      */
     protected $updated;
+    
+    /**
+     *@ORM\Column(type="string", length="100")
+     */
+    protected $slug;
 
     /**
      * Get id
@@ -203,5 +208,25 @@ class Blog
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
