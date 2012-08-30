@@ -26,6 +26,8 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'blogger_blog_blog_index' => true,
        'blogger_blog_blog_create' => true,
        'blogger_blog_blog_show' => true,
+       'blogger_blog_blog_update' => true,
+       'blogger_blog_blog_remove' => true,
     );
 
     /**
@@ -112,5 +114,15 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getblogger_blog_blog_showRouteInfo()
     {
         return array(array (  0 => 'slug',), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::showAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'slug',  ),  1 =>   array (    0 => 'text',    1 => '/blog',  ),));
+    }
+
+    private function getblogger_blog_blog_updateRouteInfo()
+    {
+        return array(array (  0 => 'slug',), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::updateAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'slug',  ),  1 =>   array (    0 => 'text',    1 => '/blog/modifica-post',  ),));
+    }
+
+    private function getblogger_blog_blog_removeRouteInfo()
+    {
+        return array(array (  0 => 'slug',), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::removeAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'slug',  ),  1 =>   array (    0 => 'text',    1 => '/blog/rimuovi-post',  ),));
     }
 }

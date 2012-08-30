@@ -1,1 +1,10 @@
-Titolo {{ blogpost.title }}, slug {{blogpost.slug}}
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ blogpost.title }} | Lebowski & Nico
+{% endblock %}
+
+{% block body %}
+    Titolo {{ blogpost.title }}, slug {{blogpost.slug}}
+{% endblock %}
+

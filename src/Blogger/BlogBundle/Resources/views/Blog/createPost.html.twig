@@ -1,1 +1,9 @@
-Il post {{blogpost.id}}- {{blogpost.title}} è stato creato correttamente il {{blogpost.created|date("d/m/Y")}}
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Nuovo Post | Lebowski & Nico
+{% endblock %}
+
+{% block body %}
+    Il post {{blogpost.id}}- {{blogpost.title}} è stato creato correttamente il {{blogpost.created|date("d/m/Y")}}
+{% endblock %}

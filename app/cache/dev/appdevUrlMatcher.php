@@ -99,6 +99,16 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::showAction',)), array('_route' => 'blogger_blog_blog_show'));
         }
 
+        // blogger_blog_blog_update
+        if (0 === strpos($pathinfo, '/blog/modifica-post') && preg_match('#^/blog/modifica\\-post/(?P<slug>[^/]+?)$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::updateAction',)), array('_route' => 'blogger_blog_blog_update'));
+        }
+
+        // blogger_blog_blog_remove
+        if (0 === strpos($pathinfo, '/blog/rimuovi-post') && preg_match('#^/blog/rimuovi\\-post/(?P<slug>[^/]+?)$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::removeAction',)), array('_route' => 'blogger_blog_blog_remove'));
+        }
+
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
     }
 }

@@ -56,7 +56,7 @@ class Blog
     protected $updated;
     
     /**
-     *@ORM\Column(type="string", length="100")
+     *@ORM\Column(type="string", length="100", unique="TRUE")
      */
     protected $slug;
 

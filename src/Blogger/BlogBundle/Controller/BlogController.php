@@ -57,4 +57,43 @@ class BlogController extends Controller
         }
         return $this->render('BloggerBlogBundle:Blog:singlePost.html.twig', array('blogpost' => $blogPost));
     }
+    
+    /**
+     *
+     * @Route("/blog/modifica-post/{slug}")
+     * @Template()
+     */
+    public function updateAction($slug)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $blogPost = $em->getRepository('BloggerBlogBundle:Blog')->findOneBySlug($slug);
+
+        if (!$blogPost) {
+            throw $this->createNotFoundException('Nessun post trovato per lo slug '.$slug);
+        }
+
+        $blogPost->setTitle('Nome del nuovo post!');
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('blogger_blog_blog_index'));
+    }
+    
+    /**
+     * @Route("/blog/rimuovi-post/{slug}")
+     * @Template()
+     */
+    public function removeAction($slug)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $blogPost = $em->getRepository('BloggerBlogBundle:Blog')->findOneBySlug($slug);
+
+        if (!$blogPost) {
+            throw $this->createNotFoundException('Nessun post trovato per lo slug '.$slug);
+        }
+
+        $em->remove($blogPost);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('blogger_blog_blog_index'));
+    }
 }
