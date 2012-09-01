@@ -90,8 +90,8 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         // blogger_blog_blog_create
-        if ($pathinfo === '/blog/nuovo-post') {
-            return array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::createAction',  '_route' => 'blogger_blog_blog_create',);
+        if (0 === strpos($pathinfo, '/blog/nuovo-post') && preg_match('#^/blog/nuovo\\-post/(?P<slug>[^/]+?)$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::createAction',)), array('_route' => 'blogger_blog_blog_create'));
         }
 
         // blogger_blog_blog_show

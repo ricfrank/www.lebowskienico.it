@@ -16,30 +16,32 @@ class BlogController extends Controller
      */
     public function indexAction($page)
     {
-        return $this->render('BloggerBlogBundle:Blog:index.html.twig', array('page' => $page));
+        $em = $this->getDoctrine()->getEntityManager();
+        $allBlogPost = $em->getRepository('BloggerBlogBundle:PostBlog')->findAllOrderedByDateDesc();
+        return $this->render('BloggerBlogBundle:PostBlog:index.html.twig', array('posts' => $allBlogPost));
     }
     
     /**
-     * @Route("/blog/nuovo-post")
+     * @Route("/blog/nuovo-post/{slug}")
      * @Template()
      */
-    public function createAction()
+    public function createAction($slug)
     {
-        $blogPost = new Entity\Blog();
-        $blogPost->setTitle('Pippo Pluto');
+        $blogPost = new Entity\PostBlog();
+        $blogPost->setTitle('titolo: '.$slug);
         $blogPost->setBlog('Lebowski & Nico');
         $blogPost->setAuthor('Riccardo');
-        $blogPost->setCreated(new \DateTime('now'));
+//        $blogPost->setCreated(new \DateTime('now'));
         $blogPost->setUpdated(new \DateTime('now'));
         $blogPost->setImage('prova.png');
         $blogPost->setTags('prova, lebowski, musica');
-        $blogPost->setSlug('pippo-pluto');
+//        $blogPost->setSlug($slug);
 
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($blogPost);
         $em->flush();
         
-        return $this->render('BloggerBlogBundle:Blog:createPost.html.twig', array('blogpost' => $blogPost));
+        return $this->render('BloggerBlogBundle:PostBlog:createPost.html.twig', array('blogpost' => $blogPost));
     }
     
     /**
@@ -48,14 +50,14 @@ class BlogController extends Controller
      */
     public function showAction($slug)
     {
-        $repository = $this->getDoctrine()->getRepository('BloggerBlogBundle:Blog');
+        $repository = $this->getDoctrine()->getRepository('BloggerBlogBundle:PostBlog');
 
         $blogPost = $repository->findOneBySlug($slug);
 
         if (!$blogPost) {
             throw $this->createNotFoundException('Nessun post trovato per lo slug '.$slug);
         }
-        return $this->render('BloggerBlogBundle:Blog:singlePost.html.twig', array('blogpost' => $blogPost));
+        return $this->render('BloggerBlogBundle:PostBlog:singlePost.html.twig', array('blogpost' => $blogPost));
     }
     
     /**
@@ -66,13 +68,14 @@ class BlogController extends Controller
     public function updateAction($slug)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $blogPost = $em->getRepository('BloggerBlogBundle:Blog')->findOneBySlug($slug);
+        $blogPost = $em->getRepository('BloggerBlogBundle:PostBlog')->findOneBySlug($slug);
 
         if (!$blogPost) {
             throw $this->createNotFoundException('Nessun post trovato per lo slug '.$slug);
         }
 
         $blogPost->setTitle('Nome del nuovo post!');
+        $blogPost->setUpdated(new \DateTime('now'));
         $em->flush();
 
         return $this->redirect($this->generateUrl('blogger_blog_blog_index'));
@@ -85,7 +88,7 @@ class BlogController extends Controller
     public function removeAction($slug)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $blogPost = $em->getRepository('BloggerBlogBundle:Blog')->findOneBySlug($slug);
+        $blogPost = $em->getRepository('BloggerBlogBundle:PostBlog')->findOneBySlug($slug);
 
         if (!$blogPost) {
             throw $this->createNotFoundException('Nessun post trovato per lo slug '.$slug);

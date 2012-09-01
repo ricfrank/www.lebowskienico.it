@@ -108,7 +108,7 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
 
     private function getblogger_blog_blog_createRouteInfo()
     {
-        return array(array (), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::createAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/blog/nuovo-post',  ),));
+        return array(array (  0 => 'slug',), array (  '_controller' => 'Blogger\\BlogBundle\\Controller\\BlogController::createAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'slug',  ),  1 =>   array (    0 => 'text',    1 => '/blog/nuovo-post',  ),));
     }
 
     private function getblogger_blog_blog_showRouteInfo()

@@ -1,15 +1,16 @@
 <?php
-// src/Blogger/BlogBundle/Entity/Blog.php
 
 namespace Blogger\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Blogger\BlogBundle\Helper\Slugger;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="blog")
+ * @ORM\Entity(repositoryClass="Blogger\BlogBundle\Repository\PostBlogRepository")
+ * @ORM\Table(name="post_blog")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Blog
+class PostBlog
 {
     /**
      * @ORM\Id
@@ -179,6 +180,8 @@ class Blog
     {
         $this->created = $created;
     }
+    
+    
 
     /**
      * Get created
@@ -228,5 +231,21 @@ class Blog
     public function getSlug()
     {
         return $this->slug;
+    }
+    
+    /**
+     *@ORM\prePersist
+     */
+    public function setCreatedValue()
+    {
+        $this->created = new \DateTime();
+    }
+    
+    /**
+     *@ORM\prePersist
+     */
+    public function setSlugValue()
+    {
+        $this->slug = Slugger::createSlugbyTitle($this->title);
     }
 }

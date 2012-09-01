@@ -5,5 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    Hellooo {{ page }}!
+    <ul>
+    {% for post in posts %}
+        <li>{{post.title}}</li>
+    {% endfor %}
+    </ul>    
 {% endblock %}
