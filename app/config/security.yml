@@ -1,38 +1,42 @@
 security:
-    encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
-
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+    firewalls:
+        secured_area:
+            #il firewall viene attivato quando la richiesta in arrivo corrisponde alla regexp su pattern
+            #pattern (^/) corrisponderà a ogni richiesta in arrivo. Il fatto che il firewall venga attivato 
+            #non significa tuttavia che venga visualizzato il box di autenticazione con nome utente e 
+            #password per ogni URL. Per esempio, qualunque utente può accedere a /foo senza che venga 
+            #richiesto di autenticars
+            pattern:    ^/ 
+            #è abilitato l'accesso all'utente anonimo per tutti i path diversi da quelli che corrispondono
+            #alla sezione access_control. Se anonymus viene tolto allora per qualsiasi richiesta verrà
+            #chiesto all'utente di autenticarsi
+            anonymous: ~
+#            http_basic:
+#                realm: "Area demo protetta"
+            form_login:
+                login_path:  /login
+                check_path:  /login_check
+#        admin_area:
+#            pattern:    ^/admin
+#            http_basic:
+#                realm: "Area protetta"
+    #access_control dice che qualsiasi URL che corrispondono allo schema dell'espressione regolare ^/admin 
+    #(cioè /admin o qualunque URL del tipo /admin/*) richiede il ruolo ROLE_ADMIN.I ruoli sono la base per 
+    #la maggior parte delle autorizzazioni: un utente può accedere /admin/foo solo se ha il ruolo ROLE_ADMIN.
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
 
     providers:
-        in_memory:
-            users:
-                user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        administrators:
+            entity: { class: BloggerUserBundle:User, property: username }
+        #in_memory:
+        #    users:
+        #        ryan:  { password: bb87a29949f3a1ee0559f8a57357487151281386, roles: 'ROLE_USER' }
+        #        admin: { password: 44060752d7f7ae069c8187120455195325af0cca, roles: 'ROLE_ADMIN' }
 
-    firewalls:
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-
-        secured_area:
-            pattern:    ^/demo/secured/
-            form_login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
-            logout:
-                path:   /demo/secured/logout
-                target: /demo/
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
-
-    access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+    encoders:
+       # Symfony\Component\Security\Core\User\User: plaintext
+        Blogger\UserBundle\Entity\User:
+            algorithm:   sha1
+            iterations: 1
+            encode_as_base64: false

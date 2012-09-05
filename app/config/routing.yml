@@ -1,7 +1,20 @@
+BloggerSecurityBundle:
+    resource: "@BloggerSecurityBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+BloggerUserBundle:
+    resource: "@BloggerUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 BloggerBlogBundle:
     resource: "@BloggerBlogBundle/Controller/"
     type:     annotation
     prefix:   /
+
+login_check:
+    pattern:   /login_check
 
 # Internal routing configuration to handle ESI
 #_internal:
