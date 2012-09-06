@@ -9,11 +9,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/hello/{name}")
-     * @Template()
-     */
-    public function indexAction($name)
+      * @Route("/user/new")
+      * @Template()
+      */
+    public function createUserAction()
     {
-        return array('name' => $name);
+        $factory = $this->get('security.encoder_factory');
+        $user = new \Blogger\UserBundle\Entity\User();
+
+        $encoder = $factory->getEncoder($user);
+        $password = $encoder->encodePassword('lebowski', $user->getSalt());
+        $user->setPassword($password);
+var_dump($user);
     }
+  
 }

@@ -16,6 +16,10 @@ security:
             form_login:
                 login_path:  /login
                 check_path:  /login_check
+                
+            logout:
+                path:   /logout
+                target: /
 #        admin_area:
 #            pattern:    ^/admin
 #            http_basic:
@@ -25,10 +29,19 @@ security:
     #la maggior parte delle autorizzazioni: un utente può accedere /admin/foo solo se ha il ruolo ROLE_ADMIN.
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-
+        
+    #Nella configurazione sopra, gli utenti con ruolo ROLE_ADMIN avranno anche il ruolo ROLE_USER. 
+    #Il ruolo ROLE_SUPER_ADMIN ha ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH e ROLE_USER (ereditati da ROLE_ADMIN).
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+    
     providers:
         administrators:
             entity: { class: BloggerUserBundle:User, property: username }
+        
+        #questo user provider indica che ci sono due utenti con due specifici ruoli (in_memory sta ad indicare che)
+        #non gli utenti non provengono da una base di dati ma da un file di confogurazione
         #in_memory:
         #    users:
         #        ryan:  { password: bb87a29949f3a1ee0559f8a57357487151281386, roles: 'ROLE_USER' }
