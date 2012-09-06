@@ -15,12 +15,13 @@ class UserRepository extends EntityRepository implements UserProviderInterface
     {
         $q = $this
             ->createQueryBuilder('u')
+            ->select('u, g')
+            ->leftJoin('u.groups', 'g')
             ->where('u.username = :username OR u.email = :email')
             ->setParameter('username', $username)
             ->setParameter('email', $username)
-            ->getQuery()
-        ;
-
+            ->getQuery();
+       
         try {
             // The Query::getSingleResult() method throws an exception
             // if there is no record matching the criteria.

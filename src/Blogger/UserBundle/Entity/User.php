@@ -5,6 +5,7 @@ namespace Blogger\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Blogger\UserBundle\Entity\User
@@ -45,13 +46,21 @@ class User implements AdvancedUserInterface
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Groups", inversedBy="users")
+     *
+     */
+    private $groups;
+
 
     public function __construct()
     {
         $this->isActive = true;
         $this->salt = md5(uniqid(null, true));
+        $this->groups = new ArrayCollection();
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -81,7 +90,7 @@ class User implements AdvancedUserInterface
      */
     public function getRoles()
     {
-        return array('ROLE_ADMIN');
+        return $this->groups->toArray();
     }
 
     /**
