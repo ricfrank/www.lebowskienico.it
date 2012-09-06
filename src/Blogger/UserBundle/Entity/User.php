@@ -4,6 +4,7 @@ namespace Blogger\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * Blogger\UserBundle\Entity\User
@@ -11,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="users_blog")
  * @ORM\Entity(repositoryClass="Blogger\UserBundle\Entity\UserRepository")
  */
-class User implements UserInterface
+class User implements AdvancedUserInterface
 {
      /**
      * @ORM\Column(type="integer")
@@ -80,7 +81,7 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return array('ROLE_ADMIN');
     }
 
     /**
@@ -174,6 +175,26 @@ class User implements UserInterface
      * @return boolean 
      */
     public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled() 
     {
         return $this->isActive;
     }

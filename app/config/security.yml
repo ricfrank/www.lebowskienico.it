@@ -38,7 +38,11 @@ security:
     
     providers:
         administrators:
-            entity: { class: BloggerUserBundle:User, property: username }
+            #entity: { class: BloggerUserBundle:User, property: username }
+            #se non viene specificata la proprietà da utilizzare per recuperare l'utente in fase di 
+            #login, viene utilizzato il metodo loadUserByUsername della classe UserRepository
+            #per l'autenticazione (che in questo caso utilizza si username che email come username)
+            entity: { class: BloggerUserBundle:User}
         
         #questo user provider indica che ci sono due utenti con due specifici ruoli (in_memory sta ad indicare che)
         #non gli utenti non provengono da una base di dati ma da un file di confogurazione
