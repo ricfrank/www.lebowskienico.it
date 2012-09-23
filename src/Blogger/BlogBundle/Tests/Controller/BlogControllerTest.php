@@ -11,7 +11,7 @@ class BlogControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/blog');
 
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("titolo: ciccio-mario")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("The pool on the roof must have a leak")')->count());
     }
     
     public function testUpdated()

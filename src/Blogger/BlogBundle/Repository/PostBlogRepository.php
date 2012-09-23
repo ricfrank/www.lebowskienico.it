@@ -12,10 +12,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostBlogRepository extends EntityRepository
 {
-    public function findAllOrderedByDateDesc()
+    public function findAllOrderedByDateDesc($limit = null)
     {
-        return $this->getEntityManager()
-            ->createQuery('SELECT b FROM BloggerBlogBundle:PostBlog b ORDER BY b.created DESC')
-            ->getResult();
+        $em = $this->getEntityManager();
+        
+        $qb = $em->createQueryBuilder()
+                  ->select('b')
+                  ->from('BloggerBlogBundle:PostBlog',  'b')
+                  ->addOrderBy('b.created', 'DESC');
+        
+        if (false === is_null($limit)){
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->getQuery()
+                  ->getResult();
+        
+//        return $this->getEntityManager()
+//            ->createQuery('SELECT b FROM BloggerBlogBundle:PostBlog b ORDER BY b.created DESC')
+//            ->getResult();
     }
 }

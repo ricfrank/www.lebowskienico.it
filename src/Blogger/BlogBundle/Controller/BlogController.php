@@ -31,11 +31,9 @@ class BlogController extends Controller
         $blogPost->setTitle('titolo: '.$slug);
         $blogPost->setBlog('Lebowski & Nico');
         $blogPost->setAuthor('Riccardo');
-//        $blogPost->setCreated(new \DateTime('now'));
-        $blogPost->setUpdated(new \DateTime('now'));
+
         $blogPost->setImage('prova.png');
         $blogPost->setTags('prova, lebowski, musica');
-//        $blogPost->setSlug($slug);
 
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($blogPost);
@@ -50,14 +48,22 @@ class BlogController extends Controller
      */
     public function showAction($slug)
     {
-        $repository = $this->getDoctrine()->getRepository('BloggerBlogBundle:PostBlog');
+        $em = $this->getDoctrine()->getEntityManager();
 
-        $blogPost = $repository->findOneBySlug($slug);
-
+        $blogPost = $em->getRepository('BloggerBlogBundle:PostBlog')->findOneBySlug($slug);
+//var_dump($blogPost->getComments()->first()->getComment() );
         if (!$blogPost) {
             throw $this->createNotFoundException('Nessun post trovato per lo slug '.$slug);
         }
-        return $this->render('BloggerBlogBundle:PostBlog:singlePost.html.twig', array('blogpost' => $blogPost));
+        
+        $comments = $em->getRepository('BloggerBlogBundle:Comment')
+                    ->getCommentsForBlog($blogPost->getId());
+
+        
+        return $this->render('BloggerBlogBundle:PostBlog:singlePost.html.twig', array(
+            'blogpost' => $blogPost,
+            'comments'  => $comments
+        ));
     }
     
     /**

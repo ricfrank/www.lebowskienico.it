@@ -207,4 +207,24 @@ class User implements AdvancedUserInterface
     {
         return $this->isActive;
     }
+
+    /**
+     * Add groups
+     *
+     * @param Blogger\UserBundle\Entity\Groups $groups
+     */
+    public function addGroups(\Blogger\UserBundle\Entity\Groups $groups)
+    {
+        $this->groups[] = $groups;
+    }
+
+    /**
+     * Get groups
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
 }
